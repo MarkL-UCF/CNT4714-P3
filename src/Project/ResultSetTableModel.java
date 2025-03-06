@@ -1,4 +1,4 @@
-// A TableModel that supplies ResultSet data to a JTable.
+package Project;// A TableModel that supplies ResultSet data to a JTable.
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -69,6 +69,10 @@ public class ResultSetTableModel extends AbstractTableModel
 		    //setUpdate (query);
 	  } //end try
        */
+      /*
+      try{
+
+      }
       catch ( SQLException sqlException ) 
       {
          sqlException.printStackTrace();
@@ -76,7 +80,9 @@ public class ResultSetTableModel extends AbstractTableModel
       } // end catch
       catch (IOException e) {
    	     e.printStackTrace();
-      }  
+      }
+
+       */
    } // end constructor ResultSetTableModel
 
    // get class that represents column type

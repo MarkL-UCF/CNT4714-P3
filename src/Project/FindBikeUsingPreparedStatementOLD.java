@@ -1,5 +1,3 @@
-// This example uses the PreparedStatement Interface
-
 import javax.swing.*;
 import java.sql.*;
 import java.awt.*;
@@ -7,9 +5,10 @@ import java.awt.event.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
+import javax.sql.DataSource;
 import com.mysql.cj.jdbc.MysqlDataSource;
 
-public class FindBikeUsingPreparedStatement {
+public class FindBikeUsingPreparedStatementOLD extends JApplet {
   boolean isStandalone = false;
   private JTextField jtfbike = new JTextField(25);
   private JTextField jtfcost = new JTextField(6);
@@ -39,6 +38,7 @@ public class FindBikeUsingPreparedStatement {
     jbtShowCost.setBackground(Color.BLACK);
     jbtShowCost.setForeground(Color.RED);
     
+    this.getContentPane().add(jPanel1, BorderLayout.NORTH);
   }
 
   private void initializeDB() {

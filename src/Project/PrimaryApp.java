@@ -25,6 +25,8 @@ public class PrimaryApp extends JFrame {
 
     public PrimaryApp() {
         //Construct GUI instance
+        JFrame frame = new JFrame ("SQL CLIENT APPLICATION - (MJL - CNT 4714 - SPRING 2025 - PROJECT 3");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         String[] dbPropertiesItems = {"project3.properties", "bikedb.properties", "newdb.properties", "modeldb.properties"};
         String[] userPropertiesItems = {"root.properties", "client1.properties", "client2.properties", "newuser.properties", "mysteryuser.properties"};
@@ -69,6 +71,7 @@ public class PrimaryApp extends JFrame {
 
         ConnectButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
+                /*
                 try{
                     //if already connected, close previous connection
                     if(connect != null)
@@ -84,6 +87,7 @@ public class PrimaryApp extends JFrame {
                         //match username and password with properties file values
 
                         //use valueOf() for password field to read
+
 
                         if(userCredentialsOK) {
                             //set DataSource parameter values
@@ -104,11 +108,12 @@ public class PrimaryApp extends JFrame {
                 catch(SQLException e){
                     JOptionPane.showMessageDialog(null, e.getMessage(), "Database error", JOptionPane.ERROR_MESSAGE);
                 }
-
+                 */
             }
         }
         );
 
+        /*
         DisconnectButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent event) {
                 //clear the results displayed in the window
@@ -145,6 +150,7 @@ public class PrimaryApp extends JFrame {
 
         ExecuteButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
+
                 try{
                     //activate result table
 
@@ -174,7 +180,13 @@ public class PrimaryApp extends JFrame {
                 catch(ClassNotFoundException NotFound){
                     JOptionPane.showMessageDialog(null, "MySQL driver not found", "Driver not found", JOptionPane.ERROR_MESSAGE);
                 }
+
+
             }
         });
+
+         */
+
+       frame.show();
     }
 }
