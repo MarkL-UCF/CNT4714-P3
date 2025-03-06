@@ -32,7 +32,14 @@ public class ResultSetTableModel extends AbstractTableModel
    // determines number of rows
    public ResultSetTableModel( String query ) 
       throws SQLException, ClassNotFoundException
-   {         
+   {
+      //The constructor method here needs modification for project 3
+      //The connection is not made here, but is passed into this method by the user app
+      //Don't execute a default query - if user has no connection - no query can be run, if user has a connection
+      //but no command is present, the SQL Error should be reported
+
+      //all this code moves to the connection button event handler
+      /*
 	   Properties properties = new Properties();
 	   FileInputStream filein = null;
 	   MysqlDataSource dataSource = null;
@@ -61,6 +68,7 @@ public class ResultSetTableModel extends AbstractTableModel
 		    //set update and execute it
 		    //setUpdate (query);
 	  } //end try
+       */
       catch ( SQLException sqlException ) 
       {
          sqlException.printStackTrace();
@@ -183,7 +191,51 @@ public class ResultSetTableModel extends AbstractTableModel
 
       // determine number of rows in ResultSet
       resultSet.last();                   // move to last row
-      numberOfRows = resultSet.getRow();  // get row number      
+      numberOfRows = resultSet.getRow();  // get row number
+
+      //additional code will go here to handle operationsLog processing
+      //1. get a connection as a project3app user to the operationsLog db
+      //2. identify the user issuing query
+      //3. using the connection from step 1, send the update command
+      //4. close connection to operationsLog db
+
+      //additional details of the steps above
+
+      //get the metaData for the connection object
+      //extract the username from the connection object - need to know who "owns" the connection
+      //note: if it is theaccountant user - ignore this section of code
+
+      //use the project3app.properties file to get a project3app "user" connection to operationsLog DB
+         //Establish a connection to the operationsLog db
+      //use this connection for the updating of the operationscount table
+
+      //create prepareStatement command Strings
+      //need one to find the user in operationscount table
+      // "select * from operationscount where login_username = ?;";
+      //need one for inserting a new user into the operationscount table //loginname, 1, 0
+      //need one for updating the operationscount table to increment number of queries
+
+      //create the PreparedStatement objects - one for each command string above
+      //PreparedStatement "name of PreparedStatement object" = connection.prepareStatement(command String);
+
+      //find the row in operationsCount table that belongs to the user issuing the command
+      //if there is currently no row for this user, then this is their first command issued - add a new row
+      //    to the operationsCount table for this user with the values: ("login-username", 1, 0).
+      //if a row already exists in the operationsCount table for this user, then they have issued previous commands -
+      //    increment by 1 the number of query commands issued by this user
+      //set the username parameter for the PreparedStatement object
+      //    operationsCountStatement1.setString(1, user_name);
+
+      //run the prepared statement to see if the user is in the operationsCount table
+      //    If ResultSet is empty on return - then you have a new user and need to enter a new row into the operationsCount table
+      //    parameter values would be (username, 1, 0)
+      //else ResultSet contained this username - so user has issued commands before - need to update their row in the operationsCount table
+      //    this user has already issued commands and is already represented in the operationsCount table
+      //    need to update their existing row - parameter values should be (username, numqueries + 1);
+
+      //Close connection to operationsLog db
+      //operationslogDBconnection.close();
+      //end code to update operationslog database
       
       // notify JTable that model has changed
       fireTableStructureChanged();
@@ -191,7 +243,7 @@ public class ResultSetTableModel extends AbstractTableModel
 
 
 // set new database update-query string
-   public void setUpdate( String query ) 
+   public int setUpdate( String query )
       throws SQLException, IllegalStateException 
    {
 	  int res;
@@ -201,15 +253,18 @@ public class ResultSetTableModel extends AbstractTableModel
 
       // specify query and execute it
       res = statement.executeUpdate( query );
-/*
-      // obtain meta data for ResultSet
-      metaData = resultSet.getMetaData();
-      // determine number of rows in ResultSet
-      resultSet.last();                   // move to last row
-      numberOfRows = resultSet.getRow();  // get row number      
-*/    
-      // notify JTable that model has changed
-      //fireTableStructureChanged();
+
+      //add code here to update the operations log db as the project3app user; +1 to update count
+
+      //Create prepareStatement command strings
+         //need one to find the user in the operationsCount table
+            //"select * from operationsCount where login_username = ?;";
+      //Need one for inserting a new user into operationscount table //loginname, 0, 1
+      //Need one for updating the operationscount table to increment the number of updates
+
+      //end code to update operationsLog database
+      return res;
+
    } // end method setUpdate
 
    // close Statement and Connection               
