@@ -2,11 +2,9 @@ package Project;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
 
 public class PrimaryApp extends JFrame {
     /*
@@ -26,6 +24,9 @@ public class PrimaryApp extends JFrame {
     private JPanel executionArea;
     private JPanel connectionArea;
     private JPanel commandArea;
+    private JLabel connectionHeader;
+    private JPasswordField passwordField1;
+    private JLabel PasswordLabel;
 
     public PrimaryApp() {
         //Construct GUI instance
