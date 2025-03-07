@@ -6,11 +6,10 @@ import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.sql.Connection;
-import java.sql.SQLException;
 
 public class PrimaryApp extends JFrame {
+    /*
     private JButton ConnectButton, DisconnectButton, ClearCommand, ExecuteButton, ClearWindow, CloseApp;
     private JLabel CommandLabel, dbInfoLabel, JdbcLabel1, JdbcLabel2, UserLabel, PasswordLabel;
     private JTextArea textCommand;
@@ -22,6 +21,11 @@ public class PrimaryApp extends JFrame {
     private Connection connect;
     private TableModel Empty;
     private JTable resultTable;
+    */
+    private JPanel mainBackground;
+    private JPanel executionArea;
+    private JPanel connectionArea;
+    private JPanel commandArea;
 
     public PrimaryApp() {
         //Construct GUI instance
