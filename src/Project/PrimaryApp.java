@@ -2,7 +2,7 @@ package Project;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
+import javax.swing.table.TableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -25,8 +25,26 @@ public class PrimaryApp extends JFrame {
     private JPanel connectionArea;
     private JPanel commandArea;
     private JLabel connectionHeader;
-    private JPasswordField passwordField1;
-    private JLabel PasswordLabel;
+    private JPasswordField passwordText;
+    private JLabel passwordLabel;
+    private JLabel dbPropLabel;
+    private JLabel userPropLabel;
+    private JLabel userLabel;
+    private JTextField userText;
+    private JComboBox dbPropertiesComboBox;
+    private JComboBox userPropertiesComboBox;
+    private JButton ConnectButton;
+    private JButton DisconnectButton;
+    private JLabel commandHeader;
+    private JTextArea textCommand;
+    private JButton ClearCommand;
+    private JButton ExecuteButton;
+    private JLabel statusLabel;
+    private JLabel windowHeader;
+    private JTable resultTable;
+    private JButton ClearWindow;
+    private JButton CloseApp;
+    private TableModel Empty;
 
     public PrimaryApp() {
         //Construct GUI instance
@@ -39,20 +57,26 @@ public class PrimaryApp extends JFrame {
         //Construct GUI components
 
         //Define buttons - there are 6 buttons in this GUI
+        /*
         ConnectButton = new JButton("Connect to Database");
         ConnectButton.setFont(new Font("Arial", Font.BOLD, 12));
         ConnectButton.setBackground((Color.BLUE));
         ConnectButton.setBackground((Color.WHITE));
         ConnectButton.setBorderPainted(false);
         ConnectButton.setOpaque(true);
+        */
+         */
 
         /* ... */
 
         //Define labels
+        /*
         CommandLabel = new JLabel();
         CommandLabel.setFont(new Font("Arial", Font.BOLD, 14));
         CommandLabel.setForeground(Color.BLUE);
         CommandLabel.setText("Enter An SQL Command");
+        */
+
 
         /* ... */
 
@@ -64,12 +88,13 @@ public class PrimaryApp extends JFrame {
             //enter user's password
 
         // set components, dimensions, etc
-        resultTable = new JTable();
+
         Empty = new DefaultTableModel();
+        resultTable.setModel(Empty);
 
         //set up componenets with bounds (x,y,w,h) x = pixels in from left edge of container, y = pixels down from top edge of container
-        //w = pixel wiedth of element, and h = pixel height of element
-        ConnectButton.setBounds(20, 180, 165, 25);
+        //w = pixel width of element, and h = pixel height of element
+        //ConnectButton.setBounds(20, 180, 165, 25);
 
         //add components to GUI
         //add (ConnectButton);
@@ -118,7 +143,7 @@ public class PrimaryApp extends JFrame {
         }
         );
 
-        /*
+
         DisconnectButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent event) {
                 //clear the results displayed in the window
@@ -149,7 +174,7 @@ public class PrimaryApp extends JFrame {
 
         CloseApp.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-               //shuts down the application
+               System.exit(0);
             }
         });
 
@@ -190,7 +215,7 @@ public class PrimaryApp extends JFrame {
             }
         });
 
-         */
+
 
        frame.show();
     }

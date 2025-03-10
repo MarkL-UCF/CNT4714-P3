@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Project.PrimaryApp">
-  <grid id="27dc6" binding="mainBackground" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="27dc6" binding="mainBackground" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="500" height="400"/>
+      <xy x="20" y="20" width="571" height="498"/>
     </constraints>
     <properties>
       <background color="-4144960"/>
     </properties>
     <border type="none"/>
     <children>
-      <grid id="20084" binding="executionArea" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="20084" binding="executionArea" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -20,9 +20,41 @@
           <enabled value="true"/>
         </properties>
         <border type="none"/>
-        <children/>
+        <children>
+          <component id="ca8d2" class="javax.swing.JLabel" binding="statusLabel">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-7499886"/>
+              <foreground color="-906459"/>
+              <opaque value="true"/>
+              <text value="NO CONNECTION ESTABLISHED"/>
+            </properties>
+          </component>
+          <component id="46402" class="javax.swing.JLabel" binding="windowHeader">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <foreground color="-14926627"/>
+              <text value="SQL Execution Result Window"/>
+            </properties>
+          </component>
+          <component id="41e1" class="javax.swing.JTable" binding="resultTable">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="50"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-1973273"/>
+              <selectionBackground color="-15329770"/>
+            </properties>
+          </component>
+        </children>
       </grid>
-      <grid id="898a3" binding="connectionArea" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="898a3" binding="connectionArea" layout-manager="GridLayoutManager" row-count="6" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -40,37 +72,65 @@
               <background color="-4144960"/>
               <enabled value="true"/>
               <foreground color="-16776449"/>
+              <opaque value="false"/>
               <text value="Connection Details"/>
             </properties>
           </component>
-          <component id="e2544" class="javax.swing.JLabel">
-            <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="Label"/>
-            </properties>
-          </component>
-          <component id="78270" class="javax.swing.JLabel">
+          <component id="e2544" class="javax.swing.JLabel" binding="userPropLabel">
             <constraints>
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Label"/>
+              <background color="-7499886"/>
+              <foreground color="-15329770"/>
+              <opaque value="true"/>
+              <text value="User Properties"/>
             </properties>
           </component>
-          <component id="79c83" class="javax.swing.JLabel" binding="PasswordLabel">
+          <component id="78270" class="javax.swing.JLabel" binding="userLabel">
             <constraints>
               <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <background color="-4144960"/>
+              <background color="-7499886"/>
+              <foreground color="-15329770"/>
+              <opaque value="true"/>
+              <text value="Username"/>
+            </properties>
+          </component>
+          <component id="79c83" class="javax.swing.JLabel" binding="passwordLabel">
+            <constraints>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-7499886"/>
               <enabled value="true"/>
               <foreground color="-15329770"/>
+              <labelFor value=""/>
+              <opaque value="true"/>
               <text value="Password"/>
             </properties>
           </component>
-          <component id="65c1c" class="javax.swing.JPasswordField" binding="passwordField1" default-binding="true">
+          <component id="65c1c" class="javax.swing.JPasswordField" binding="passwordText">
+            <constraints>
+              <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="6560e" class="javax.swing.JLabel" binding="dbPropLabel">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-7499886"/>
+              <foreground color="-15329770"/>
+              <opaque value="true"/>
+              <text value="DB URL Properties"/>
+            </properties>
+          </component>
+          <component id="1b05e" class="javax.swing.JTextField" binding="userText">
             <constraints>
               <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -78,9 +138,45 @@
             </constraints>
             <properties/>
           </component>
+          <component id="4de5b" class="javax.swing.JComboBox" binding="dbPropertiesComboBox">
+            <constraints>
+              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="e742b" class="javax.swing.JComboBox" binding="userPropertiesComboBox">
+            <constraints>
+              <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="2e9dc" class="javax.swing.JButton" binding="ConnectButton" custom-create="true">
+            <constraints>
+              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-14926627"/>
+              <enabled value="true"/>
+              <foreground color="-394241"/>
+              <hideActionText value="false"/>
+              <opaque value="true"/>
+              <selected value="false"/>
+              <text value="Connect"/>
+              <visible value="true"/>
+            </properties>
+          </component>
+          <component id="33375" class="javax.swing.JButton" binding="DisconnectButton">
+            <constraints>
+              <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-906459"/>
+              <text value="Disconnect"/>
+            </properties>
+          </component>
         </children>
       </grid>
-      <grid id="69c1" binding="commandArea" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="69c1" binding="commandArea" layout-manager="GridLayoutManager" row-count="4" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -89,8 +185,67 @@
           <background color="-4144960"/>
         </properties>
         <border type="none"/>
-        <children/>
+        <children>
+          <component id="b1a1" class="javax.swing.JLabel" binding="commandHeader">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <foreground color="-14926627"/>
+              <text value="Enter An SQL Command"/>
+            </properties>
+          </component>
+          <component id="ca066" class="javax.swing.JTextArea" binding="textCommand">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="50"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-1973273"/>
+              <caretColor color="-15329770"/>
+            </properties>
+          </component>
+          <component id="d7d56" class="javax.swing.JButton" binding="ClearCommand">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-1646336"/>
+              <doubleBuffered value="true"/>
+              <text value="Clear SQL Command"/>
+            </properties>
+          </component>
+          <component id="f3eda" class="javax.swing.JButton" binding="ExecuteButton">
+            <constraints>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <autoscrolls value="true"/>
+              <background color="-13697252"/>
+              <text value="Execute SQL Command"/>
+            </properties>
+          </component>
+        </children>
       </grid>
+      <component id="60b89" class="javax.swing.JButton" binding="ClearWindow">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-1646336"/>
+          <text value="Clear Result Window"/>
+        </properties>
+      </component>
+      <component id="321a2" class="javax.swing.JButton" binding="CloseApp">
+        <constraints>
+          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-906459"/>
+          <text value="Close Application"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>
