@@ -31,8 +31,8 @@ public class PrimaryApp extends JFrame {
     private JLabel userPropLabel;
     private JLabel userLabel;
     private JTextField userText;
-    private JComboBox dbPropertiesComboBox;
-    private JComboBox userPropertiesComboBox;
+    private JComboBox<String> dbPropertiesComboBox;
+    private JComboBox<String> userPropertiesComboBox;
     private JButton ConnectButton;
     private JButton DisconnectButton;
     private JLabel commandHeader;
@@ -55,6 +55,13 @@ public class PrimaryApp extends JFrame {
 
         String[] dbPropertiesItems = {"project3.properties", "bikedb.properties", "newdb.properties", "modeldb.properties"};
         String[] userPropertiesItems = {"root.properties", "client1.properties", "client2.properties", "newuser.properties", "mysteryuser.properties"};
+
+        //populate combo boxes
+        for (String dbPropertiesItem : dbPropertiesItems)
+            dbPropertiesComboBox.addItem(dbPropertiesItem);
+
+        for (String userPropertiesItem : userPropertiesItems)
+            userPropertiesComboBox.addItem(userPropertiesItem);
 
         //Construct GUI components
 
@@ -114,7 +121,7 @@ public class PrimaryApp extends JFrame {
                     try{
                         //open and read the properties file
 
-                        //set the DataSource obejct
+                        //set the DataSource object
 
                         //match username and password with properties file values
 
@@ -140,7 +147,9 @@ public class PrimaryApp extends JFrame {
                 catch(SQLException e){
                     JOptionPane.showMessageDialog(null, e.getMessage(), "Database error", JOptionPane.ERROR_MESSAGE);
                 }
+
                  */
+
             }
         }
         );
@@ -159,8 +168,8 @@ public class PrimaryApp extends JFrame {
                 catch(SQLException e) {
                     JOptionPane.showMessageDialog(null, e.getMessage(), "Database error", JOptionPane.ERROR_MESSAGE);
                 }
+                */
 
-                 */
             }
         });
 
