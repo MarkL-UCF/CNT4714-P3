@@ -178,6 +178,8 @@ public class PrimaryApp extends JFrame {
                             //update connection status
                             statusLabel.setText("CONNECTED TO: " + dbProperties.getProperty("MYSQL_DB_URL"));
                             statusLabel.setForeground(Color.BLACK);
+
+                            DisconnectButton.setEnabled(true);
                         }
                         else {
                             JOptionPane.showMessageDialog(null, "Username and/or Password Incorrect", "Connection error", JOptionPane.ERROR_MESSAGE);
@@ -204,18 +206,21 @@ public class PrimaryApp extends JFrame {
         DisconnectButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent event) {
                 //clear the results displayed in the window
+                resultTable.setModel(Empty);
 
                 //clear the input command area
+                textCommand.setText("");
 
-                /*
+
                 try{
                     connect.close();
+                    statusLabel.setText("NO CONNECTION ESTABLISHED");
+                    statusLabel.setForeground(Color.RED);
+                    DisconnectButton.setEnabled(false);
                 }
                 catch(SQLException e) {
                     JOptionPane.showMessageDialog(null, e.getMessage(), "Database error", JOptionPane.ERROR_MESSAGE);
                 }
-                */
-
             }
         });
 
@@ -276,7 +281,9 @@ public class PrimaryApp extends JFrame {
         });
 
 
+        DisconnectButton.setEnabled(false);
+        DisconnectButton.setForeground(Color.WHITE);
 
-       setVisible(true);
+        setVisible(true);
     }
 }

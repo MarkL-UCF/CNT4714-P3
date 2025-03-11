@@ -171,6 +171,7 @@
             </constraints>
             <properties>
               <background color="-906459"/>
+              <enabled value="true"/>
               <text value="Disconnect"/>
             </properties>
           </component>
