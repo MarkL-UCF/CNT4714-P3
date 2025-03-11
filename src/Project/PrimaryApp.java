@@ -1,10 +1,16 @@
 package Project;
 
+import javax.sql.DataSource;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Properties;
 
 public class PrimaryApp extends JFrame {
     /*
@@ -45,6 +51,9 @@ public class PrimaryApp extends JFrame {
     private JButton ClearWindow;
     private JButton CloseApp;
     private TableModel Empty;
+
+    private Connection connect;
+    private Properties loginProperties;
 
     public PrimaryApp() {
         //Construct GUI instance
@@ -110,20 +119,32 @@ public class PrimaryApp extends JFrame {
 
         ConnectButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                /*
+
                 try{
                     //if already connected, close previous connection
                     if(connect != null)
                         connect.close();
+
                     //display status message when not connected
+                    statusLabel.setText("NO CONNECTION ESTABLISHED");
 
 
                     try{
                         //open and read the properties file
+                        @SuppressWarnings("DataFlowIssue") FileInputStream loginPropertiesStream = new FileInputStream((String)userPropertiesComboBox.getSelectedItem());
+                        loginProperties.load(loginPropertiesStream);
+                        loginPropertiesStream .close();
 
                         //set the DataSource object
+                        DataSource dSource;
 
                         //match username and password with properties file values
+                        boolean userCredentialsOK = false;
+
+                        if(loginProperties.getProperty("MYSQL_DB_USERNAME").equals(userText.getText())
+                        && loginProperties.getProperty("MYSQL_DB_PASSWORD").equals(String.valueOf(passwordText.getPassword()))){
+                            userCredentialsOK = true;
+                        }
 
                         //use valueOf() for password field to read
 
@@ -134,7 +155,7 @@ public class PrimaryApp extends JFrame {
                             //update connection status
                         }
                         else {
-                            //indicate no connection
+                            JOptionPane.showMessageDialog(null, "Username and/or Password Incorrect", "Connection error", JOptionPane.ERROR_MESSAGE);
                         }
                     }
                     catch(SQLException e){
@@ -148,7 +169,7 @@ public class PrimaryApp extends JFrame {
                     JOptionPane.showMessageDialog(null, e.getMessage(), "Database error", JOptionPane.ERROR_MESSAGE);
                 }
 
-                 */
+
 
             }
         }
