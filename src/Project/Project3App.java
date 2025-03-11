@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 @SuppressWarnings("FieldMayBeFinal")
-public class PrimaryApp extends JFrame {
+public class Project3App extends JFrame {
     /*
     private JButton ConnectButton, DisconnectButton, ClearCommand, ExecuteButton, ClearWindow, CloseApp;
     private JLabel CommandLabel, dbInfoLabel, JdbcLabel1, JdbcLabel2, UserLabel, PasswordLabel;
@@ -53,13 +53,16 @@ public class PrimaryApp extends JFrame {
     private JTable resultTable;
     private JButton ClearWindow;
     private JButton CloseApp;
+    private JScrollPane scrollPane;
     private TableModel Empty;
 
     private Connection connect;
+    private Connection opLogConnect;
     private Properties loginProperties = new Properties();
     private Properties dbProperties = new Properties();
+    private Properties opLogProperties = new Properties();
 
-    public PrimaryApp() {
+    public Project3App() {
         //Construct GUI instance
         setTitle("SQL CLIENT APPLICATION - (MJL - CNT 4714 - SPRING 2025 - PROJECT 3");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -144,8 +147,13 @@ public class PrimaryApp extends JFrame {
                         dbProperties.load(dbPropertiesStream);
                         dbPropertiesStream.close();
 
+                        @SuppressWarnings("DataFlowIssue") FileInputStream opLogPropertiesStream = new FileInputStream("src/project3app.properties");
+                        opLogProperties.load(opLogPropertiesStream);
+                        opLogPropertiesStream.close();
+
                         //set the DataSource object
                         MysqlDataSource dataSource = new MysqlDataSource();
+                        MysqlDataSource opDataSource = new MysqlDataSource();
 
                         //match username and password with properties file values
                         boolean userCredentialsOK = false;
@@ -172,8 +180,13 @@ public class PrimaryApp extends JFrame {
                             dataSource.setUser(loginProperties.getProperty("MYSQL_DB_USERNAME"));
                             dataSource.setPassword(loginProperties.getProperty("MYSQL_DB_PASSWORD"));
 
+                            opDataSource.setUrl(opLogProperties.getProperty("MYSQL_DB_URL"));
+                            opDataSource.setUser(opLogProperties.getProperty("MYSQL_DB_USERNAME"));
+                            opDataSource.setPassword(opLogProperties.getProperty("MYSQL_DB_PASSWORD"));
+
                             //get connection
                             connect = dataSource.getConnection();
+                            opLogConnect = opDataSource.getConnection();
 
                             //update connection status
                             statusLabel.setText("CONNECTED TO: " + dbProperties.getProperty("MYSQL_DB_URL"));
@@ -183,6 +196,9 @@ public class PrimaryApp extends JFrame {
                             ConnectButton.setEnabled(false);
                             dbPropertiesComboBox.setEnabled(false);
                             userPropertiesComboBox.setEnabled(false);
+                            ClearCommand.setEnabled(true);
+                            ClearWindow.setEnabled(true);
+                            ExecuteButton.setEnabled(true);
                         }
                         else {
                             JOptionPane.showMessageDialog(null, "Username and/or Password Incorrect", "Connection error", JOptionPane.ERROR_MESSAGE);
@@ -210,6 +226,7 @@ public class PrimaryApp extends JFrame {
             public void actionPerformed(ActionEvent event) {
                 //clear the results displayed in the window
                 resultTable.setModel(Empty);
+                scrollPane.setEnabled(false);
 
                 //clear the input command area
                 textCommand.setText("");
@@ -222,6 +239,9 @@ public class PrimaryApp extends JFrame {
                     DisconnectButton.setEnabled(false);
                     dbPropertiesComboBox.setEnabled(true);
                     userPropertiesComboBox.setEnabled(true);
+                    ClearCommand.setEnabled(false);
+                    ClearWindow.setEnabled(false);
+                    ExecuteButton.setEnabled(false);
                 }
                 catch(SQLException e) {
                     JOptionPane.showMessageDialog(null, e.getMessage(), "Database error", JOptionPane.ERROR_MESSAGE);
@@ -233,6 +253,7 @@ public class PrimaryApp extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 //clears the results displayed in the window
                 resultTable.setModel(Empty);
+                scrollPane.setEnabled(false);
             }
         });
 
@@ -240,6 +261,7 @@ public class PrimaryApp extends JFrame {
         ClearCommand.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //clears the text displayed in the query window
+                textCommand.setText("");
             }
         });
 
@@ -251,14 +273,15 @@ public class PrimaryApp extends JFrame {
 
         ExecuteButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-                /*
                 try{
                     //activate result table
+                    scrollPane.setEnabled(true);
 
                     //set scrolling
 
-                    //create TableModel object for results
 
+                    //create TableModel object for results
+                    ResultSetTableModel resultModel = new ResultSetTableModel(connect, opLogConnect);
 
                     //If select statement is used (a query), use executeQuery()
                     //All other command types will use executeUpdate() from the ResultSetTableModelFall2023 class
@@ -266,6 +289,8 @@ public class PrimaryApp extends JFrame {
 
                     if(textCommand.getText().toUpperCase().contains("SELECT")){
                         //helper class executes query statement
+                        resultModel.setQuery(textCommand.getText());
+
                         //returns ResultSet object
                         //convert ResultSet object into JTable object
                     }
@@ -281,14 +306,20 @@ public class PrimaryApp extends JFrame {
                 catch(ClassNotFoundException NotFound){
                     JOptionPane.showMessageDialog(null, "MySQL driver not found", "Driver not found", JOptionPane.ERROR_MESSAGE);
                 }
-                */
 
             }
         });
 
-
+        scrollPane.setEnabled(false);
         DisconnectButton.setEnabled(false);
         DisconnectButton.setForeground(Color.WHITE);
+        ClearCommand.setEnabled(false);
+        ClearCommand.setForeground(Color.WHITE);
+        ClearWindow.setEnabled(false);
+        ClearWindow.setForeground(Color.WHITE);
+        ExecuteButton.setEnabled(false);
+        ExecuteButton.setForeground(Color.WHITE);
+        CloseApp.setForeground(Color.WHITE);
 
         setVisible(true);
     }

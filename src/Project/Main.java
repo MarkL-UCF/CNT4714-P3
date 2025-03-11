@@ -8,8 +8,8 @@ public class Main {
 
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                PrimaryApp bookEditorExample = new PrimaryApp();
-                bookEditorExample.setVisible(true);
+                Project3App primaryApp = new Project3App();
+                primaryApp.setVisible(true);
             }
         });
     }

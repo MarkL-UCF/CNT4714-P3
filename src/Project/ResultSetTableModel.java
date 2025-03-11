@@ -1,14 +1,12 @@
 package Project;// A TableModel that supplies ResultSet data to a JTable.
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.sql.DatabaseMetaData;
+
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import javax.swing.table.AbstractTableModel;
-import java.util.Properties;
-import com.mysql.cj.jdbc.MysqlDataSource;
 
 
 // ResultSet rows and columns are counted from 1 and JTable 
@@ -17,12 +15,13 @@ import com.mysql.cj.jdbc.MysqlDataSource;
 // necessary to add 1 to the row or column number to manipulate
 // the appropriate ResultSet column (i.e., JTable column 0 is 
 // ResultSet column 1 and JTable row 0 is ResultSet row 1).
-public class ResultSetTableModel extends AbstractTableModel 
+public class ResultSetTableModel extends AbstractTableModel
 {
    private Connection connection;
+   private Connection opLogConnection;
    private Statement statement;
    private ResultSet resultSet;
-   private ResultSetMetaData metaData;
+   private ResultSetMetaData resultSetMetaData;
    private int numberOfRows;
 
    // keep track of database connection status
@@ -30,7 +29,7 @@ public class ResultSetTableModel extends AbstractTableModel
    
    // constructor initializes resultSet and obtains its meta data object;
    // determines number of rows
-   public ResultSetTableModel( String query ) 
+   public ResultSetTableModel(Connection passedConnection, Connection passedOpLogConnection)
       throws SQLException, ClassNotFoundException
    {
       //The constructor method here needs modification for project 3
@@ -38,42 +37,15 @@ public class ResultSetTableModel extends AbstractTableModel
       //Don't execute a default query - if user has no connection - no query can be run, if user has a connection
       //but no command is present, the SQL Error should be reported
 
-      //all this code moves to the connection button event handler
-      /*
-	   Properties properties = new Properties();
-	   FileInputStream filein = null;
-	   MysqlDataSource dataSource = null;
-       //read properties file
-	   try {
-	    	filein = new FileInputStream("db.properties");
-	    	properties.load(filein);
-	    	dataSource = new MysqlDataSource();
-	    	dataSource.setURL(properties.getProperty("MYSQL_DB_URL"));
-	    	dataSource.setUser(properties.getProperty("MYSQL_DB_USERNAME"));
-	    	dataSource.setPassword(properties.getProperty("MYSQL_DB_PASSWORD")); 	
-	    
-            // connect to database bikes and query database
-  	        // establish connection to database
-   	        Connection connection = dataSource.getConnection();
-	
-            // create Statement to query database
-            statement = connection.createStatement( ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY );
+      connection = passedConnection;
+      opLogConnection = passedOpLogConnection;
+      connectedToDatabase = true;
 
-            // update database connection status
-            connectedToDatabase = true;
-
-            // set query and execute it
-            setQuery( query );
-		
-		    //set update and execute it
-		    //setUpdate (query);
-	  } //end try
-       */
       /*
       try{
 
       }
-      catch ( SQLException sqlException ) 
+      catch ( SQLException sqlException )
       {
          sqlException.printStackTrace();
          System.exit( 1 );
@@ -95,7 +67,7 @@ public class ResultSetTableModel extends AbstractTableModel
       // determine Java class of column
       try 
       {
-         String className = metaData.getColumnClassName( column + 1 );
+         String className = resultSetMetaData.getColumnClassName( column + 1 );
          
          // return Class object that represents className
          return Class.forName( className );
@@ -118,7 +90,7 @@ public class ResultSetTableModel extends AbstractTableModel
       // determine number of columns
       try 
       {
-         return metaData.getColumnCount(); 
+         return resultSetMetaData.getColumnCount();
       } // end try
       catch ( SQLException sqlException ) 
       {
@@ -138,7 +110,7 @@ public class ResultSetTableModel extends AbstractTableModel
       // determine column name
       try 
       {
-         return metaData.getColumnName( column + 1 );  
+         return resultSetMetaData.getColumnName( column + 1 );
       } // end try
       catch ( SQLException sqlException ) 
       {
@@ -190,10 +162,10 @@ public class ResultSetTableModel extends AbstractTableModel
          throw new IllegalStateException( "Not Connected to Database" );
 
       // specify query and execute it
-      resultSet = statement.executeQuery( query );
+      resultSet = statement.executeQuery(query);
 
       // obtain meta data for ResultSet
-      metaData = resultSet.getMetaData();
+      resultSetMetaData = resultSet.getMetaData();
 
       // determine number of rows in ResultSet
       resultSet.last();                   // move to last row
@@ -210,6 +182,7 @@ public class ResultSetTableModel extends AbstractTableModel
       //get the metaData for the connection object
       //extract the username from the connection object - need to know who "owns" the connection
       //note: if it is theaccountant user - ignore this section of code
+
 
       //use the project3app.properties file to get a project3app "user" connection to operationsLog DB
          //Establish a connection to the operationsLog db
@@ -238,6 +211,12 @@ public class ResultSetTableModel extends AbstractTableModel
       //else ResultSet contained this username - so user has issued commands before - need to update their row in the operationsCount table
       //    this user has already issued commands and is already represented in the operationsCount table
       //    need to update their existing row - parameter values should be (username, numqueries + 1);
+
+      if(!connection.getMetaData().getUserName().equals("theaccountant")){
+      String findUserString = "select * from operationscount where login_username = ?;";
+      String insertUserString = "insert unto operationscount (" + connection.getMetaData().getUserName() + ", 1, 0);";
+      String updateQueryString =
+      }
 
       //Close connection to operationsLog db
       //operationslogDBconnection.close();
