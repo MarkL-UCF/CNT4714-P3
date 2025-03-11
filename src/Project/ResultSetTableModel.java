@@ -157,7 +157,7 @@ public class ResultSetTableModel extends AbstractTableModel
          throw new IllegalStateException( "Not Connected to Database" );
 
       // specify query and execute it
-      statement = connection.createStatement();
+      statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
       resultSet = statement.executeQuery(query);
 
       // obtain meta data for ResultSet
