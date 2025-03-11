@@ -1,11 +1,6 @@
 package Project;// A TableModel that supplies ResultSet data to a JTable.
-import java.sql.DatabaseMetaData;
+import java.sql.*;
 
-import java.sql.Connection;
-import java.sql.Statement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 import javax.swing.table.AbstractTableModel;
 
 
@@ -162,6 +157,7 @@ public class ResultSetTableModel extends AbstractTableModel
          throw new IllegalStateException( "Not Connected to Database" );
 
       // specify query and execute it
+      statement = connection.createStatement();
       resultSet = statement.executeQuery(query);
 
       // obtain meta data for ResultSet
@@ -213,9 +209,36 @@ public class ResultSetTableModel extends AbstractTableModel
       //    need to update their existing row - parameter values should be (username, numqueries + 1);
 
       if(!connection.getMetaData().getUserName().equals("theaccountant")){
-      String findUserString = "select * from operationscount where login_username = ?;";
-      String insertUserString = "insert unto operationscount (" + connection.getMetaData().getUserName() + ", 1, 0);";
-      String updateQueryString =
+         String findUserString = "select * from operationscount where login_username = ?;";
+         String insertUserString = "insert into operationscount (login_username, num_queries, num_updates) values (?, ?, ?);";
+         String updateQueryString = "update operationscounts set num_queries = num_queries + ? where login_username = ?";
+
+         PreparedStatement findState = connection.prepareStatement(findUserString);
+         findState.setString(1, connection.getMetaData().getUserName());
+
+         PreparedStatement insertState = connection.prepareStatement(insertUserString);
+         insertState.setString(1, connection.getMetaData().getUserName());
+         insertState.setInt(2, 1);
+         insertState.setInt(3, 0);
+
+         PreparedStatement updateState = connection.prepareStatement(updateQueryString);
+         updateState.setInt(1, 1);
+         updateState.setString(2, connection.getMetaData().getUserName());
+
+         //execute statement
+         ResultSet opLogSet;
+
+         opLogSet = findState.executeQuery();
+
+         if(!opLogSet.next()) {
+            //user does not exist, make one
+            insertState.execute();
+         }
+         else {
+            //user exists, update
+            updateState.execute();
+         }
+
       }
 
       //Close connection to operationsLog db
@@ -237,6 +260,7 @@ public class ResultSetTableModel extends AbstractTableModel
          throw new IllegalStateException( "Not Connected to Database" );
 
       // specify query and execute it
+      statement = connection.createStatement();
       res = statement.executeUpdate( query );
 
       //add code here to update the operations log db as the project3app user; +1 to update count
@@ -246,6 +270,39 @@ public class ResultSetTableModel extends AbstractTableModel
             //"select * from operationsCount where login_username = ?;";
       //Need one for inserting a new user into operationscount table //loginname, 0, 1
       //Need one for updating the operationscount table to increment the number of updates
+
+      if(!connection.getMetaData().getUserName().equals("theaccountant")){
+         String findUserString = "select * from operationscount where login_username = ?;";
+         String insertUserString = "insert into operationscount (login_username, num_queries, num_updates) values (?, ?, ?);";
+         String updateQueryString = "update operationscounts set num_updates = num_updates + ? where login_username = ?";
+
+         PreparedStatement findState = connection.prepareStatement(findUserString);
+         findState.setString(1, connection.getMetaData().getUserName());
+
+         PreparedStatement insertState = connection.prepareStatement(insertUserString);
+         insertState.setString(1, connection.getMetaData().getUserName());
+         insertState.setInt(2, 0);
+         insertState.setInt(3, 1);
+
+         PreparedStatement updateState = connection.prepareStatement(updateQueryString);
+         updateState.setInt(1, 1);
+         updateState.setString(2, connection.getMetaData().getUserName());
+
+         //execute statement
+         ResultSet opLogSet;
+
+         opLogSet = findState.executeQuery();
+
+         if(!opLogSet.next()) {
+            //user does not exist, make one
+            insertState.execute();
+         }
+         else {
+            //user exists, update
+            updateState.execute();
+         }
+
+      }
 
       //end code to update operationsLog database
       return res;

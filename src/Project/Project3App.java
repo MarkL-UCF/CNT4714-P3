@@ -237,6 +237,7 @@ public class Project3App extends JFrame {
                     statusLabel.setText("NO CONNECTION ESTABLISHED");
                     statusLabel.setForeground(Color.RED);
                     DisconnectButton.setEnabled(false);
+                    ConnectButton.setEnabled(true);
                     dbPropertiesComboBox.setEnabled(true);
                     userPropertiesComboBox.setEnabled(true);
                     ClearCommand.setEnabled(false);
@@ -293,11 +294,16 @@ public class Project3App extends JFrame {
 
                         //returns ResultSet object
                         //convert ResultSet object into JTable object
+                        resultTable.setModel(resultModel);
                     }
                     else{
                         //helper class executes update statement
+                        int rowsUpdated = resultModel.setUpdate(textCommand.getText());
                         //returns int
+
                         //if return value is >= 0, then update was successful, oops otherwise (SQLException)
+                        if(rowsUpdated >= 0)
+                            JOptionPane.showMessageDialog(null, "Successful Update... " + rowsUpdated + " rows updated.", "Successful Update", JOptionPane.ERROR_MESSAGE);
                     }
                 }
                 catch(SQLException e){
