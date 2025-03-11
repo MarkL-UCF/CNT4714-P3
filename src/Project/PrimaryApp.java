@@ -180,6 +180,9 @@ public class PrimaryApp extends JFrame {
                             statusLabel.setForeground(Color.BLACK);
 
                             DisconnectButton.setEnabled(true);
+                            ConnectButton.setEnabled(false);
+                            dbPropertiesComboBox.setEnabled(false);
+                            userPropertiesComboBox.setEnabled(false);
                         }
                         else {
                             JOptionPane.showMessageDialog(null, "Username and/or Password Incorrect", "Connection error", JOptionPane.ERROR_MESSAGE);
@@ -217,6 +220,8 @@ public class PrimaryApp extends JFrame {
                     statusLabel.setText("NO CONNECTION ESTABLISHED");
                     statusLabel.setForeground(Color.RED);
                     DisconnectButton.setEnabled(false);
+                    dbPropertiesComboBox.setEnabled(true);
+                    userPropertiesComboBox.setEnabled(true);
                 }
                 catch(SQLException e) {
                     JOptionPane.showMessageDialog(null, e.getMessage(), "Database error", JOptionPane.ERROR_MESSAGE);
@@ -227,6 +232,7 @@ public class PrimaryApp extends JFrame {
         ClearWindow.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //clears the results displayed in the window
+                resultTable.setModel(Empty);
             }
         });
 
