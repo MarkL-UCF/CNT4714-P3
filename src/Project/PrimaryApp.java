@@ -48,8 +48,10 @@ public class PrimaryApp extends JFrame {
 
     public PrimaryApp() {
         //Construct GUI instance
-        JFrame frame = new JFrame ("SQL CLIENT APPLICATION - (MJL - CNT 4714 - SPRING 2025 - PROJECT 3");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setTitle("SQL CLIENT APPLICATION - (MJL - CNT 4714 - SPRING 2025 - PROJECT 3");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setContentPane(mainBackground);
+        pack();
 
         String[] dbPropertiesItems = {"project3.properties", "bikedb.properties", "newdb.properties", "modeldb.properties"};
         String[] userPropertiesItems = {"root.properties", "client1.properties", "client2.properties", "newuser.properties", "mysteryuser.properties"};
@@ -65,7 +67,7 @@ public class PrimaryApp extends JFrame {
         ConnectButton.setBorderPainted(false);
         ConnectButton.setOpaque(true);
         */
-         */
+
 
         /* ... */
 
@@ -150,12 +152,15 @@ public class PrimaryApp extends JFrame {
 
                 //clear the input command area
 
+                /*
                 try{
                     connect.close();
                 }
                 catch(SQLException e) {
                     JOptionPane.showMessageDialog(null, e.getMessage(), "Database error", JOptionPane.ERROR_MESSAGE);
                 }
+
+                 */
             }
         });
 
@@ -180,7 +185,7 @@ public class PrimaryApp extends JFrame {
 
         ExecuteButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
-
+                /*
                 try{
                     //activate result table
 
@@ -210,13 +215,13 @@ public class PrimaryApp extends JFrame {
                 catch(ClassNotFoundException NotFound){
                     JOptionPane.showMessageDialog(null, "MySQL driver not found", "Driver not found", JOptionPane.ERROR_MESSAGE);
                 }
-
+                */
 
             }
         });
 
 
 
-       frame.show();
+       setVisible(true);
     }
 }
