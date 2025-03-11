@@ -1,9 +1,11 @@
 package Project;
 
-import javax.sql.DataSource;
+import com.mysql.cj.jdbc.MysqlDataSource;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileInputStream;
@@ -12,6 +14,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
+@SuppressWarnings("FieldMayBeFinal")
 public class PrimaryApp extends JFrame {
     /*
     private JButton ConnectButton, DisconnectButton, ClearCommand, ExecuteButton, ClearWindow, CloseApp;
@@ -53,7 +56,8 @@ public class PrimaryApp extends JFrame {
     private TableModel Empty;
 
     private Connection connect;
-    private Properties loginProperties;
+    private Properties loginProperties = new Properties();
+    private Properties dbProperties = new Properties();
 
     public PrimaryApp() {
         //Construct GUI instance
@@ -62,8 +66,8 @@ public class PrimaryApp extends JFrame {
         setContentPane(mainBackground);
         pack();
 
-        String[] dbPropertiesItems = {"project3.properties", "bikedb.properties", "newdb.properties", "modeldb.properties"};
-        String[] userPropertiesItems = {"root.properties", "client1.properties", "client2.properties", "newuser.properties", "mysteryuser.properties"};
+        String[] dbPropertiesItems = {"src/project3.properties", "src/bikedb.properties", "src/newdb.properties", "src/modeldb.properties"};
+        String[] userPropertiesItems = {"src/root.properties", "src/client1.properties", "src/client2.properties", "src/newuser.properties", "src/mysteryuser.properties"};
 
         //populate combo boxes
         for (String dbPropertiesItem : dbPropertiesItems)
@@ -127,19 +131,32 @@ public class PrimaryApp extends JFrame {
 
                     //display status message when not connected
                     statusLabel.setText("NO CONNECTION ESTABLISHED");
+                    statusLabel.setForeground(Color.RED);
 
 
                     try{
                         //open and read the properties file
                         @SuppressWarnings("DataFlowIssue") FileInputStream loginPropertiesStream = new FileInputStream((String)userPropertiesComboBox.getSelectedItem());
                         loginProperties.load(loginPropertiesStream);
-                        loginPropertiesStream .close();
+                        loginPropertiesStream.close();
+
+                        @SuppressWarnings("DataFlowIssue") FileInputStream dbPropertiesStream = new FileInputStream((String)dbPropertiesComboBox.getSelectedItem());
+                        dbProperties.load(dbPropertiesStream);
+                        dbPropertiesStream.close();
 
                         //set the DataSource object
-                        DataSource dSource;
+                        MysqlDataSource dataSource = new MysqlDataSource();
 
                         //match username and password with properties file values
                         boolean userCredentialsOK = false;
+
+                        /*
+                        System.out.println("Username given: " + userText.getText());
+                        System.out.println("Username in properties: " + loginProperties.getProperty("MYSQL_DB_USERNAME"));
+
+                        System.out.println("Password given: " + String.valueOf(passwordText.getPassword()));
+                        System.out.println("Password in properties: " + loginProperties.getProperty("MYSQL_DB_PASSWORD"));
+                         */
 
                         if(loginProperties.getProperty("MYSQL_DB_USERNAME").equals(userText.getText())
                         && loginProperties.getProperty("MYSQL_DB_PASSWORD").equals(String.valueOf(passwordText.getPassword()))){
@@ -151,8 +168,16 @@ public class PrimaryApp extends JFrame {
 
                         if(userCredentialsOK) {
                             //set DataSource parameter values
+                            dataSource.setUrl(dbProperties.getProperty("MYSQL_DB_URL"));
+                            dataSource.setUser(loginProperties.getProperty("MYSQL_DB_USERNAME"));
+                            dataSource.setPassword(loginProperties.getProperty("MYSQL_DB_PASSWORD"));
+
                             //get connection
+                            connect = dataSource.getConnection();
+
                             //update connection status
+                            statusLabel.setText("CONNECTED TO: " + dbProperties.getProperty("MYSQL_DB_URL"));
+                            statusLabel.setForeground(Color.BLACK);
                         }
                         else {
                             JOptionPane.showMessageDialog(null, "Username and/or Password Incorrect", "Connection error", JOptionPane.ERROR_MESSAGE);

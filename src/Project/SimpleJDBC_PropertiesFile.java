@@ -1,3 +1,4 @@
+package Project;
 // creating a statement, executing a simple SQL query, and displaying the results.
 // This example uses a properties file to hold connection information.
 import java.io.FileInputStream;
