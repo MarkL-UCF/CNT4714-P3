@@ -10,6 +10,7 @@ import javax.swing.table.AbstractTableModel;
 // necessary to add 1 to the row or column number to manipulate
 // the appropriate ResultSet column (i.e., JTable column 0 is 
 // ResultSet column 1 and JTable row 0 is ResultSet row 1).
+@SuppressWarnings("ALL")
 public class ResultSetTableModel extends AbstractTableModel
 {
    private Connection connection;
@@ -208,20 +209,22 @@ public class ResultSetTableModel extends AbstractTableModel
       //    this user has already issued commands and is already represented in the operationsCount table
       //    need to update their existing row - parameter values should be (username, numqueries + 1);
 
-      if(!connection.getMetaData().getUserName().equals("theaccountant")){
+      String hostlessUsername = connection.getMetaData().getUserName().split("@")[0];
+
+      if(!hostlessUsername.equals("theaccountant")){
          String findUserString = "select * from operationscount where login_username = ?;";
          String insertUserString = "insert into operationscount (login_username, num_queries, num_updates) values (?, ?, ?);";
-         String updateQueryString = "update operationscounts set num_queries = num_queries + ? where login_username = ?";
+         String updateQueryString = "update operationscount set num_queries = num_queries + ? where login_username = ?";
 
-         PreparedStatement findState = connection.prepareStatement(findUserString);
+         PreparedStatement findState = opLogConnection.prepareStatement(findUserString);
          findState.setString(1, connection.getMetaData().getUserName());
 
-         PreparedStatement insertState = connection.prepareStatement(insertUserString);
+         PreparedStatement insertState = opLogConnection.prepareStatement(insertUserString);
          insertState.setString(1, connection.getMetaData().getUserName());
          insertState.setInt(2, 1);
          insertState.setInt(3, 0);
 
-         PreparedStatement updateState = connection.prepareStatement(updateQueryString);
+         PreparedStatement updateState = opLogConnection.prepareStatement(updateQueryString);
          updateState.setInt(1, 1);
          updateState.setString(2, connection.getMetaData().getUserName());
 
@@ -270,21 +273,22 @@ public class ResultSetTableModel extends AbstractTableModel
             //"select * from operationsCount where login_username = ?;";
       //Need one for inserting a new user into operationscount table //loginname, 0, 1
       //Need one for updating the operationscount table to increment the number of updates
+      String hostlessUsername = connection.getMetaData().getUserName().split("@")[0];
 
-      if(!connection.getMetaData().getUserName().equals("theaccountant")){
+      if(!hostlessUsername.equals("theaccountant@localhost")){
          String findUserString = "select * from operationscount where login_username = ?;";
          String insertUserString = "insert into operationscount (login_username, num_queries, num_updates) values (?, ?, ?);";
-         String updateQueryString = "update operationscounts set num_updates = num_updates + ? where login_username = ?";
+         String updateQueryString = "update operationscount set num_updates = num_updates + ? where login_username = ?";
 
-         PreparedStatement findState = connection.prepareStatement(findUserString);
+         PreparedStatement findState = opLogConnection.prepareStatement(findUserString);
          findState.setString(1, connection.getMetaData().getUserName());
 
-         PreparedStatement insertState = connection.prepareStatement(insertUserString);
+         PreparedStatement insertState = opLogConnection.prepareStatement(insertUserString);
          insertState.setString(1, connection.getMetaData().getUserName());
          insertState.setInt(2, 0);
          insertState.setInt(3, 1);
 
-         PreparedStatement updateState = connection.prepareStatement(updateQueryString);
+         PreparedStatement updateState = opLogConnection.prepareStatement(updateQueryString);
          updateState.setInt(1, 1);
          updateState.setString(2, connection.getMetaData().getUserName());
 

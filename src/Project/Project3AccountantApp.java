@@ -1,11 +1,10 @@
 /*
 Name: Mark Lee
 Course: CNT 4714 Spring 2025
-Assignment title: Project 3 – A Two-tier Client-Server Application
+Assignment title: Project 3 – A Specialized Accountant Application
 Date: March 14, 2025
-Class: Project3App
+Class: Project3AccountantApp
 */
-
 package Project;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
@@ -23,7 +22,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 @SuppressWarnings("ALL")
-public class Project3App extends JFrame {
+public class Project3AccountantApp extends JFrame {
     /*
     private JButton ConnectButton, DisconnectButton, ClearCommand, ExecuteButton, ClearWindow, CloseApp;
     private JLabel CommandLabel, dbInfoLabel, JdbcLabel1, JdbcLabel2, UserLabel, PasswordLabel;
@@ -48,8 +47,8 @@ public class Project3App extends JFrame {
     private JLabel userPropLabel;
     private JLabel userLabel;
     private JTextField userText;
-    private JComboBox<String> dbPropertiesComboBox;
-    private JComboBox<String> userPropertiesComboBox;
+    //private JComboBox<String> dbPropertiesComboBox;
+    //private JComboBox<String> userPropertiesComboBox;
     private JButton ConnectButton;
     private JButton DisconnectButton;
     private JLabel commandHeader;
@@ -62,6 +61,8 @@ public class Project3App extends JFrame {
     private JButton ClearWindow;
     private JButton CloseApp;
     private JScrollPane scrollPane;
+    private JLabel dbPropForced;
+    private JLabel userPropForce;
     private TableModel Empty;
 
     private Connection connect;
@@ -70,13 +71,14 @@ public class Project3App extends JFrame {
     private Properties dbProperties = new Properties();
     private Properties opLogProperties = new Properties();
 
-    public Project3App() {
+    public Project3AccountantApp() {
         //Construct GUI instance
-        setTitle("SQL CLIENT APPLICATION - (MJL - CNT 4714 - SPRING 2025 - PROJECT 3");
+        setTitle("SPECIALIZED ACCOUNTANT APPLICATION - (MJL - CNT 4714 - SPRING 2025 - PROJECT 3");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setContentPane(mainBackground);
         pack();
 
+        /*
         String[] dbPropertiesItems = {"src/project3.properties", "src/bikedb.properties", "src/newdb.properties", "src/modeldb.properties"};
         String[] userPropertiesItems = {"src/root.properties", "src/client1.properties", "src/client2.properties", "src/newuser.properties", "src/mysteryuser.properties"};
 
@@ -86,6 +88,8 @@ public class Project3App extends JFrame {
 
         for (String userPropertiesItem : userPropertiesItems)
             userPropertiesComboBox.addItem(userPropertiesItem);
+
+         */
 
         //Construct GUI components
 
@@ -147,15 +151,15 @@ public class Project3App extends JFrame {
 
                     try{
                         //open and read the properties file
-                        @SuppressWarnings("DataFlowIssue") FileInputStream loginPropertiesStream = new FileInputStream((String)userPropertiesComboBox.getSelectedItem());
+                        FileInputStream loginPropertiesStream = new FileInputStream((String)dbPropForced.getText());
                         loginProperties.load(loginPropertiesStream);
                         loginPropertiesStream.close();
 
-                        @SuppressWarnings("DataFlowIssue") FileInputStream dbPropertiesStream = new FileInputStream((String)dbPropertiesComboBox.getSelectedItem());
+                        FileInputStream dbPropertiesStream = new FileInputStream((String)dbPropForced.getText());
                         dbProperties.load(dbPropertiesStream);
                         dbPropertiesStream.close();
 
-                        @SuppressWarnings("DataFlowIssue") FileInputStream opLogPropertiesStream = new FileInputStream("src/project3app.properties");
+                        FileInputStream opLogPropertiesStream = new FileInputStream("src/project3app.properties");
                         opLogProperties.load(opLogPropertiesStream);
                         opLogPropertiesStream.close();
 
@@ -202,8 +206,8 @@ public class Project3App extends JFrame {
 
                             DisconnectButton.setEnabled(true);
                             ConnectButton.setEnabled(false);
-                            dbPropertiesComboBox.setEnabled(false);
-                            userPropertiesComboBox.setEnabled(false);
+                            //dbPropertiesComboBox.setEnabled(false);
+                            //userPropertiesComboBox.setEnabled(false);
                             ClearCommand.setEnabled(true);
                             ClearWindow.setEnabled(true);
                             ExecuteButton.setEnabled(true);
@@ -246,8 +250,8 @@ public class Project3App extends JFrame {
                     statusLabel.setForeground(Color.RED);
                     DisconnectButton.setEnabled(false);
                     ConnectButton.setEnabled(true);
-                    dbPropertiesComboBox.setEnabled(true);
-                    userPropertiesComboBox.setEnabled(true);
+                    //dbPropertiesComboBox.setEnabled(true);
+                    //userPropertiesComboBox.setEnabled(true);
                     ClearCommand.setEnabled(false);
                     ClearWindow.setEnabled(false);
                     ExecuteButton.setEnabled(false);
