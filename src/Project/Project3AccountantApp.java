@@ -151,11 +151,11 @@ public class Project3AccountantApp extends JFrame {
 
                     try{
                         //open and read the properties file
-                        FileInputStream loginPropertiesStream = new FileInputStream((String)dbPropForced.getText());
+                        FileInputStream loginPropertiesStream = new FileInputStream("src/theaccountant.properties");
                         loginProperties.load(loginPropertiesStream);
                         loginPropertiesStream.close();
 
-                        FileInputStream dbPropertiesStream = new FileInputStream((String)dbPropForced.getText());
+                        FileInputStream dbPropertiesStream = new FileInputStream("src/operationslog.properties");
                         dbProperties.load(dbPropertiesStream);
                         dbPropertiesStream.close();
 
